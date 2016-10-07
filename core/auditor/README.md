@@ -1,7 +1,5 @@
 # Module Description
 
-----------------------
-
 This module is built for testing the performances of the system.
 
 ## Quantitative Performance
