@@ -1,10 +1,35 @@
+# 模块描述
+
+这个模块专注于Recloud的去服务器化验证登录。
+
+## 先决模块
+* Adapter
+
+## 开发阶段
+
+一期：
+本地存储，本地配置，客户端之间隔离，专注配置管理
+
+二期：
+可选多设备配置同步
+
+三期：
+提高配置文件同步的安全性，稳定性
+
+## TO-DO
+1. 完成RecloudConfig模块设计，解决校验问题
+2. 整理配置文件
+2. 完成先决模块Adapter的开发
+3. 解决同步冲突问题
+
 # Module Description
 
 
 This module focuses how to distinguish our users without any servers for authentication.
 
+## Prerequisites
+* adapter
 
-## Relative Module
-
+## Modules in service to
 * control_manager
 * ui
