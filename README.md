@@ -1,48 +1,15 @@
-# Recloud
---
+# File Manager
 
+This part the file system of our project. In this part, we try to apply the GFS(Google File System) to our system to support our distributed private cloud. However, we have made some changes to the ChunkSever part to apply our RAID part.
 
-Hello, everyone!
+### Reasons for choosing the GFS
+1. GFS is a file system based on inexpensive commodity.
+2. The system provide fault tolerance and automatic recovery which appeal us so much.
+3. It is a scalable distributed file system.
 
-Recloud is a project which aims to build a small system to reorganize your cloud storages as a simple cloud.
+### Changes we are planning to make
+we are going to change the fault tolerance with the redundant policy which more precisely is the fountain codes(喷泉吗) we will use.
+The GFS uses the replicated chunks to keep fault tolerance while we are going to use erasure correcting codes(抹除码), which can keep the robustness while reduce the storage overhead.
 
-## What we focus
-
-* Serverlessness
-* Security
-* Convenience
-* Availability
-* Consistency
-
-
-## What we provide
-
-* A beautiful web-based UI
-* Pluggable cloud storage
-* Transplantable source code
-* Cross-platform experience
-* Multi-device support
-
-
-## Motivation
-
-1. Users are sensitive to their data on the cloud
-2. Vendor lock-in is bad for competition
-3. Users should pay a lot to their cloud storage
-
-## Installation
-
-Yet to come.
-
-## API Reference
-
-Yet to come.
-
-## Tests
-
-Yet to come.
-
-## Contributors
-
-## License
-
+### File interface
+coming soon
