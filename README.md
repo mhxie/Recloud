@@ -2,7 +2,7 @@
 
 Hello, everyone!
 
-Recloud is a project which aims to build a small system to reorganize your cloud storages as a simple cloud.
+Recloud is a project which aims to build a small system to reorganize your cloud storage as a simple cloud.
 
 ## What we focus
 
@@ -28,7 +28,7 @@ Recloud is a project which aims to build a small system to reorganize your cloud
 2. Vendor lock-in is bad for competition
 3. Users should pay a lot to their cloud storage
 
-## Installation
+## Quick Setup
 
 Yet to come.
 
@@ -36,10 +36,18 @@ Yet to come.
 
 Yet to come.
 
+## Future Direction
+
+* P2P Storage plug-in
+
 ## Tests
 
 Yet to come.
 
 ## Contributors
+* Minghao Xie
+* mathon
+* zhao yang
+* LanHEIGHT
 
 ## License

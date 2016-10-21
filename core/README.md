@@ -6,7 +6,7 @@
 
 命令行版本使用介绍：
 
-`python3 recloud.py help` # 查看帮助
+`python3 recloud.py -h` # 查看帮助
 
 `python3 recloud.py login` # 登录新账户
 
@@ -21,6 +21,8 @@
 `python3 recloud.py tree` # 打印出当前文件树
 
 `python3 recloud.py doctor` # 检查云的健康情况
+
+`python3 recloud.py optimize` # 优化云
 
 开发阶段划分：
 

@@ -1,18 +1,21 @@
 # -* - coding: UTF-8 -* -
-from ConfigParser import ConfigParser
-from ..adapter import Adapter
+from configparser import ConfigParser
+# if __name__ == '__main__':
+#     from adaptor import Adapter
+# else:
+from .adaptor import Adapter
 
 class RecloudConfig(ConfigParser):
     '''Rewrite the ConfigPaser to achieve verificaiton'''
     def __init__(self):
         ConfigParser.__init__(self)
-        ConfigParser.read('recloud.cfg')
+        ConfigParser.read('.recloud.cfg')
         ConfigParser.add_section('basic')
         ConfigParser.add('basic', 'name', user_name)
         ConfigParser.add('basic', 'cloud_num', '0')
-        ConfigParser.add('overview', 'total_storage', '0')
-        ConfigParser.add('overview', 'available_storage', '0')
-        ConfigParser.add('overview', 'unit', 'Mb')
+        ConfigParser.add('overview', 'total_quota', '0')
+        ConfigParser.add('overview', 'available_quota', '0')
+        ConfigParser.add('overview', 'unit', 'KB')
         self.switch = {
             'basic': basic_sec_verification,
             'overview': overview_sec_verification
@@ -48,7 +51,7 @@ def add_cloud_node(cloud_type):
     cloud = Adapter(cloud_type) ## Adapter module needed
 
     conf = RecloudConfig()
-    conf.read('recloud.cfg')
+    conf.read('.recloud.cfg')
 
     cloud_num = conf.getint("basic", "cloud_num")
     conf.set("basic", "cloud_num", cloud_num+1)
@@ -60,3 +63,9 @@ def add_cloud_node(cloud_type):
 
     if conf.get("basic", "sync") == "on":
         autocheck()
+
+# 检查cfg文件是不是被非法篡改，用于doctor
+def self_check():
+    pass
+if __name__ == '__main__':
+    print('import succeeds')

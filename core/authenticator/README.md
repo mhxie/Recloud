@@ -19,8 +19,25 @@
 ## TO-DO
 1. 完成RecloudConfig模块设计，解决校验问题
 2. 整理配置文件
-2. 完成先决模块Adapter的开发
-3. 解决同步冲突问题
+3. 完成先决模块Adapter的开发
+4. 解决同步冲突问题
+5. 解决相对导入问题[已解决]
+
+## 需要Adapter提供的接口
+* 类初始化时，输入节点类型
+
+		{
+			onedrive: onedrive,
+			baiduyun: 百度云,
+			googledrive: googledrive,
+			local: 本地节点,
+			nas: 网络存储,
+		}
+* 初始化后返回该类的实例
+* 实例需要实现包括以下方法：
+    * 返回节点的quota[允许列表：]
+    * 返回节点的寿命
+
 
 # Module Description
 
