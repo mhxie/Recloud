@@ -1,4 +1,19 @@
 # Adaptor Readme
+## Interface
+### add_adaptor(configdir,adaptor_type)
+新增加一个adaptor, 参数为配置文件目录和适配器类型
+
+### del_adaptor(configdir)
+删除adaptor的配置文件目录,删除之后此adaptor无法继续使用
+
+### class adaptor(num_of_adaptor)
+参数是adaptor编号，返回对一个Object
+### adaptor 成员函数
+ adaptor::upload
+ adaptor::download
+ adaptor::delete
+ adaptor::info
+
 ## Todo
 1. 实现单个账号的登录
 2. 当个账号上传，下载，删除，获取容量

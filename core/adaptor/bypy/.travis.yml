@@ -1,0 +1,33 @@
+language: python
+#sudo: false
+sudo: required
+python:
+  - "2.7"
+  - "3.3"
+#  - "3.5"
+# command to install dependencies,
+# e.g. pip install -r requirements.txt --use-mirrors
+before_install:
+ - sudo apt-get update -qq
+ - sudo apt-get install -y pandoc
+ - sudo apt-get install -y aria2
+install:
+ - pip install -r requirements.txt
+ - pip install pypandoc
+ - pip install pyflakes
+ - pip install coverage
+ - pip install coveralls
+# command to run tests, e.g. python setup.py test
+script:
+ - pyflakes bypy.py
+ - pyflakes setup.py
+ - pyflakes bypygui.pyw
+ - python setup.py test
+ - python -m doctest -v bypy.py
+ - cd test && coverage run test.py
+notifications:
+  email:
+    on_success: change # default: change
+    on_failure: always # default: always
+after_success:
+ - coveralls
