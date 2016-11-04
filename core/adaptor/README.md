@@ -9,10 +9,10 @@
 ### class adaptor(num_of_adaptor)
 参数是adaptor编号，返回对一个Object
 ### adaptor 成员函数
- adaptor::upload
- adaptor::download
- adaptor::delete
- adaptor::info
+1. adaptor::upload
+2. adaptor::download
+3. adaptor::delete
+4. adaptor::info
 
 ## Todo
 1. 实现单个账号的登录
