@@ -2,17 +2,63 @@
 # encoding: utf-8
 ### Adapter
 
+import time
+import json
+import configparser
 from bypy.bypy import ByPy
 import by_adaptor
 import os
-def add_adaptor(configdir, adaptor_type = 'baiduyun'):
+import shutil
+
+adaptor_config_path = 'config/config.ini'
+
+def add_adaptor(adaptor_type = 'baiduyun', configdir = ''):
+    if configdir == '':
+        configdir = 'config/baiduyun' + str(int(time.time() * 1000))
     if adaptor_type == 'baiduyun':
         by_adaptor.add_adaptor(configdir)
+    else :
+        raise Exception('wrong adaptor_type: %s' % adaptor_type)
+    config = configparser.ConfigParser()
+    config.read(adaptor_config_path)
+    if 'recloud' not in config:
+        config['recloud'] = {}
+    if 'adaptors' not in config['recloud']:
+        config['recloud']['adaptors'] = '{}'
+    adapter_list = json.loads(config['recloud']['adaptors'])
+    adapter_list[configdir] = adaptor_type
+    config['recloud']['adaptors'] = json.dumps(adapter_list)
+    with open(adaptor_config_path, 'w') as configfile:
+        config.write(configfile)
 
 
 def del_adaptor(configdir):
     if os.path.exists(configdir):
-        os.removedirs(configdir)
+        shutil.rmtree(configdir)
+        config = configparser.ConfigParser()
+        config.read(adaptor_config_path)
+        if not 'recloud' in config:
+            config['recloud'] = {}
+        adaptor_list = json.loads(config['recloud']['adaptors'])
+        adaptor_list.pop(configdir)
+        config['recloud']['adaptors'] = json.dumps(adaptor_list)
+        with open(adaptor_config_path, 'w') as configfile:
+            config.write(configfile)
+
+
+def get_all_adapters():
+    config = configparser.ConfigParser()
+    config.read(adaptor_config_path)
+    if 'recloud' not in config:
+        config['recloud'] = {}
+    if 'adaptors' not in config['recloud']:
+        config['recloud']['adaptors'] = '{}'
+
+    adaptor_list = json.loads(config['recloud']['adaptors'])
+    adaptors = []
+    for configdir in adaptor_list:
+        adaptors.append(Adaptor(configdir, adaptor_list[configdir]))
+    return adaptors
 
 
 class Adaptor(object):
@@ -25,6 +71,7 @@ class Adaptor(object):
         if not os.path.exists(configdir):
             raise Exception('configdir does not exist!!\n'
                             'Please add adaptor first!!')
+        self._configdir = configdir;
         self.sub_adaptor = None
         if adaptor_type == 'baiduyun':
             self.sub_adaptor = ByPy(configdir=configdir)
@@ -59,22 +106,29 @@ class Adaptor(object):
         '''
         return self.sub_adaptor.list(remotepath,fmt,sort,order)
 
+    def destory(self):
+        del_adaptor(self._configdir)
+
+
 if __name__ == '__main__':
     '''
     Sample
     '''
     # 先创建一个适配器
-    add_adaptor(configdir='test1',adaptor_type='baiduyun')
-    # 用配置目录名初始化一个适配器实例
-    myad = Adaptor('test1')
-    # 获得适配器容量信息
+    add_adaptor(adaptor_type='baiduyun')
+    # 获取所有适配器
+    adaptors = get_all_adapters();
+    # 得到第一个适配器
+    myad = adaptors[0]
     print(myad.info())
     # 查看根目录文件信息
     print(myad.list(remotepath=''))
-    #myad.upload('test.txt', 'test.txt')
+    myad.upload('test.txt', 'test.txt')
     # 下载文件
     myad.download(remotefile='test.txt', localpath='test10.txt')
     # 删除文件
     myad.delete('test.txt')
     print(myad.list())
+    # 删除这个适配器
+    myad.destory()
     pass

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#encoding:utf-8
 ### 百度云adaptor
 import os
 from bypy.bypy import ByPy
