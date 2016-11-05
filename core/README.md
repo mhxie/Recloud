@@ -10,6 +10,8 @@
 
 `python3 recloud.py login` # 登录新账户
 
+`python3 recloud.py remove` # 删除某个已登陆账户
+
 `python3 recloud.py info` # 查看账户信息
 
 `python3 recloud.py conf` # 修改配置

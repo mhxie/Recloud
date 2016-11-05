@@ -5,7 +5,8 @@
 import time
 import json
 import configparser
-from bypy.bypy import ByPy
+#from bypy.bypy import ByPy
+from .bypy import bypy
 import by_adaptor
 import os
 import shutil

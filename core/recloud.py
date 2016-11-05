@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 from authenticator.authenticate import RecloudConfig
+# from adaptor.adaptor import add_adaptor
 
 def get_info():
     print('You get the infomation!')
@@ -19,6 +20,9 @@ def get_tree():
 def login():
     print('You are login...')
     print('Which way do you want?')
+
+def remove():
+    print('Which node do you want to remove?')
 
 def upload(file_from, file_to):
     print('File from ' + file_from + ' is uploading to ' + file_to + '...')
@@ -46,7 +50,7 @@ def optimize():
 if __name__ == '__main__':
     choices = { 'info': get_info, 'conf': set_conf, 'tree': get_tree,
                 'login': login, 'upload': upload, 'download': download,
-                'doctor': doctor, 'optimize': optimize,}
+                'remove': remove, 'doctor': doctor, 'optimize': optimize,}
     parser = argparse.ArgumentParser(description='Recloud command-line client.')
     parser.add_argument('action', choices=choices, help='Choose action to do')
     parser.add_argument('file_from', nargs='?', help='The source path of file')
