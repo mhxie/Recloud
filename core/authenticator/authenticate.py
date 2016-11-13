@@ -22,34 +22,34 @@ from configparser import ConfigParser
 # expires:
 # recover_info:
 
-class RecloudConfig(ConfigParser):
-    '''Rewrite the ConfigPaser to achieve verificaiton'''
-    def __init__(self):
-        ConfigParser.__init__(self)
-        ConfigParser.read('.recloud.cfg')
-        ConfigParser.add_section('basic')
-        ConfigParser.add('basic', 'name', user_name)
-        ConfigParser.add('basic', 'cloud_num', '0')
-        ConfigParser.add('overview', 'total_quota', '0')
-        ConfigParser.add('overview', 'available_quota', '0')
-        ConfigParser.add('overview', 'unit', 'KB')
-        self.switch = {
-            'basic': basic_sec_verification,
-            'overview': overview_sec_verification
-        }
-    def basic_sec_verification(self, opt, val):
-        # some verification here
-        pass
-    def overview_sec_verification(self):
-        # some verification here
-        pass
-    def completed(self):
-        conf.write(open('.recloud.cfg', 'w'))
-    def set(sec, opt, val):
-        self.switch[sec](opt, val)
-        # some code to deal with exception
-        self.set(sec, opt, val)
-        self.completed()
+# class RecloudConfig(ConfigParser):
+#     '''Rewrite the ConfigPaser to achieve verificaiton'''
+#     def __init__(self):
+#         ConfigParser.__init__(self)
+#         ConfigParser.read('.recloud.cfg')
+#         ConfigParser.add_section('basic')
+#         ConfigParser.add('basic', 'name', user_name)
+#         ConfigParser.add('basic', 'cloud_num', '0')
+#         ConfigParser.add('overview', 'total_quota', '0')
+#         ConfigParser.add('overview', 'available_quota', '0')
+#         ConfigParser.add('overview', 'unit', 'KB')
+#         self.switch = {
+#             'basic': basic_sec_verification,
+#             'overview': overview_sec_verification
+#         }
+#     def basic_sec_verification(self, opt, val):
+#         # some verification here
+#         pass
+#     def overview_sec_verification(self):
+#         # some verification here
+#         pass
+#     def completed(self):
+#         conf.write(open('.recloud.cfg', 'w'))
+#     def set(sec, opt, val):
+#         self.switch[sec](opt, val)
+#         # some code to deal with exception
+#         self.set(sec, opt, val)
+#         self.completed()
 
 # 如果同步打开，检查本地配置与云配置的差异，并同步（更新）
 def sync_to_cloud():
@@ -73,34 +73,71 @@ def update_when_node_deleted(self, node_seq):
 
 def update_when_node_added(self, node_seq, adaptor):
     # 当新增一个节点时
+    info = adaptor.info()
+    cfg = ConfigParser.read('.recloud.cfg')
+    node_name = 'node_' + node_seq
     # 在本地增加对应节点配置
+    cfg.add_section(node_name)
+    cfg.set(node_name, 'type', info['type'])
+    cfg.set(node_name, 'total_quota', info['Quota'])
+    cfg.set(node_name, 'available_quota', info['Used'])
     # 更新overview，打上最新的时间戳
+    total_quota = cfg.get('overview', 'total_quota')
+    available_quota = cfg.get('overview', 'available_quota')
+    cfg.set('overview', 'total_quota', total_quota+info['Quota'])
+    cfg.set('overview', 'available_quota', total_quota+info['Used'])
+    import time
+    cfg.set('basic', 'last_modified', time.time())
     # 如果开启了配置云同步选项，向云端发起同步请求
+    if cfg.get('overview', 'sync') == 'on':
+        # 调用sys_upload
+        # 若同步成功
+        if sync_from_cloud():
+            sync_between_devices()
+        # 若同步失败
+        else:
+            sync_to_cloud()
     # 新建一个以设备名目录，将本地配置加密分块后上传至该目录
     # 同步时若发现sys目录下已经有一个或多个设备名目录，下面有一个recloud_config_<[0-9]+>的文件包
-    #   下载到last_client目录下的上一个设备名目录尝试解锁
+    #   下载到last_clients目录下的上一个设备名目录尝试解锁
     #       若解锁失败，保留日志
     #       若解锁成功，恢复并更新本地配置
-    pass
 
 # 检查cfg文件是不是被非法篡改，用于doctor
 def self_check():
     pass
-    
+
 # 第一次运行时的初始化
 def initialize():
     import os
     if not os.path.exists('.recloud.cfg'):
-        # 写好本地配置
+        # 新建本地配置
+        cfg = ConfigParser()
+        cfg.add_section('basic')
+        cfg.add_section('overview')
         # 获取本机名称
+        import platform
+        device_name = platform.node()
+        cfg.set('basic', 'device', device_name)
+        device_info = platform.platform()
+        cfg.set('basic', 'system', device_info)
         # 默认打开同步设置
+        cfg.set('basic', 'sync', 'on')
         # 默认关闭加密设置
-        conf = RecloudConfig()
+        cfg.set('basic', 'encrypt', 'off')
+        # 默认关闭垃圾箱
+        cfg.set('basic', 'trash_bin', 'off')
+        # 设置用户名
         user_name = input("What's your name?\n")
-        conf.set("basic", "name", user_name)
-
+        conf.set('basic', 'name', user_name)
+        # 初始化数量信息
+        conf.set('basic', 'devices_num', 1)
+        conf.set('basic', 'cloud_num', 0)
+        # 保存信息
+        import time
+        cfg.set('basic', 'last_modified', time.time())
+        cfg.write(open('.recloud.cfg', 'w'))
         print('Initialization succeeds.')
-        #
 
 
 # # 检查本地节点改动，并更新配置
