@@ -16,18 +16,18 @@ class controller:
         # 登陆节点，检查是否有名为sys的目录，有则说明为之前的节点，没有则新建一个目录，并在该sys目录下新建一个以该设备名命名的文件夹
         # 检查sys目录下是否存在以该设备名命名的目录，如果有，则证明该设备之前曾经使用过
         # 检查        部分不用考虑
-        def rsys_operation(self, device_name, op_code):
-            pass
-            # note 针对节点而言
-            # 相应的设备目录下的系统配置文件操作
-            # 下载配置文件的时候无文件映射表，需要有一定概率能在单一节点上恢复相应的文件，登录设备越多，概率越大
-            # 无文件映射表的机制，仅针对配置文件，1. 系统文件冗余和其他文件相分离，2. 系统文件无文件映射机制
+    def rsys_operation(self, device_name, op_code):
+        pass
+        # note 针对节点而言
+        # 相应的设备目录下的系统配置文件操作
+        # 下载配置文件的时候无文件映射表，需要有一定概率能在单一节点上恢复相应的文件，登录设备越多，概率越大
+        # 无文件映射表的机制，仅针对配置文件，1. 系统文件冗余和其他文件相分离，2. 系统文件无文件映射机制
 
 
-        def rfetch_devices(self):
-            pass
-            # note 针对节点而言
-            # 返回sys目录下的所有的子目录的名字
+    def rfetch_devices(self):
+        pass
+        # note 针对节点而言
+        # 返回sys目录下的所有的子目录的名字
     # 上传
     def rupload(self, name, priority = False):
         pass
@@ -52,7 +52,7 @@ class controller:
         pass
         # 通过参数查询映射表
         # 检查是否开启回收站机制
-        # 如果没有删除所有adapter上的文件块，并删除映射表记录
+        # 如果没有删除所有adapter上的文件块，并删除映射
         # 如果开启了，则将相应的记录移动到recent_discarded的字典中
 
     # 查错
