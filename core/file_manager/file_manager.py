@@ -1,13 +1,19 @@
 #coding: utf-8
 
 
-class manager:
+class manager(object):
 # 文件管理系统，此系统是整个系统的文件管理层，向下与raid_manager直接相连，中间提供了一个概念上的文件树的管理
     # 文件目录
     list = []
     # 回收站机制
     trash_bin = False
     # 文件查看
+
+    def recover(self):
+        pass
+        # 在系统重启时，从两个配置文件中恢复出系统结构
+
+
     def list(self, path = '/'):
         pass
         #由recloud模块来调用list（）方法，获取文件目录
@@ -24,7 +30,7 @@ class manager:
         #note 针对节点而言
         #返回sys目录下的所有的子目录的名字
     # 上传
-    def upload(self, path = '/', name):
+    def upload(self, name, path = '/'):
         pass
         #检查操作
         #调用相应的raid_manager方法来上传文件
@@ -37,7 +43,7 @@ class manager:
         #检查文件的完整性
 
     # 删除文件
-    def discard(self, self.trash_bin):
+    def discard(self, trash_bin):
         pass
         # 调用相应的raid_manager方法来删除
         # 修改当前的文件树
@@ -54,7 +60,9 @@ class manager:
         #操作类型，操作时间，完成时间，操作者
         #
 
-    def  exist(self, path = '/', )
+    def exist(self, path = '/', ):
+        pass
 
 if __name__ == '__main__':
+    pass
     #instance

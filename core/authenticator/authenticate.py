@@ -138,7 +138,18 @@ def initialize():
         cfg.set('basic', 'last_modified', time.time())
         cfg.write(open('.recloud.cfg', 'w'))
         print('Initialization succeeds.')
-
+def tree_nodes_info(level=0):
+    #这个方法通过从配置信息中恢复出整个系统的节点情况，给用户查看
+    cfg = ConfigParser()
+    if level:
+        print('You get the infomation!')
+        print('Total quota size: XXX MB')
+        print('Available quota size(before redundant): XXX MB')
+        print('Available quota size(after redundant): XXX MB')
+        print('Estimate upload speed: XXX KB/s')
+        print('Estimate download speed: XXX KB/s')
+    else:
+        pass
 
 # # 检查本地节点改动，并更新配置
 # def sync_from_local():
