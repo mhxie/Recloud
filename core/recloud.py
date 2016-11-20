@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 import argparse
-from authenticator.authenticate import *
+import authenticate
 from adaptor.adaptor import add_adaptor
 from file_manager.file_manager import manager
 
 
 # System Initialization
+authenticate.initialize()
 system_file_manager = manager()
 system_file_manager.recover()
 
@@ -15,7 +16,7 @@ def get_info():
 def set_conf():
     print('Choose the configuration !')
 
-def get_tree(path):
+def get_tree(path='/'):
     print('Tree root is %s' % path)
     system_file_manager.list(path)
 
@@ -23,7 +24,7 @@ def login():
     print('You are login...')
     (seq, adaptor) = add_adaptor()
     try:
-        update_when_node_added(seq, adaptor)
+        authenticate.update_when_node_added(seq, adaptor)
     except Exception as e:
         print(e)
 
@@ -32,7 +33,7 @@ def remove():
     tree_nodes_info()
     seq = input('Which node do you want to remove?')
     try:
-        update_when_node_deleted(int(seq))
+        authenticate.update_when_node_deleted(int(seq))
     except Exception as e:
         print(e)
 
@@ -42,6 +43,7 @@ def upload(file_from, file_to):
         system_file_manager.upload(file_from, file_to)
     except Exception as e:
         print(e)
+
 def download(file_from, file_to):
     print('File from ' + file_from + ' is downloading to ' + file_to + '...')
     try:
