@@ -18,6 +18,7 @@ class manager(object):
         pass
         #由recloud模块来调用list（）方法，获取文件目录
         #由根目录下来获得，字典，Jason文件，交由系统同步
+
     #系统文件操作
     def sys_operation(self, device_name, op_code):
         pass
